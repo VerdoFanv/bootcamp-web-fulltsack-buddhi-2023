@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            font-family: 'Calibri', sans-serif;
+        }
+
+        form {
+            border: 1px solid #000;
+            display: flex;
+            flex-direction: column;
+        }
+        .row {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .row input {
+            border: 1px solid #000;
+            border-radius: 2px;
+            padding: 5px;
+        }
+
+        .row label {
+            font-weight: 600;
+        }
+
+        .row button[type=submit] {
+            background-color: cadetblue;
+            padding: 10px;
+            color: #fff;
+            font-weight: 600;
+            outline: none;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+
+        section#list {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        article.card {
+            background-color: cornsilk;
+            padding: 10px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kalkulator Pengiriman Paket</h1>
+    <form id="form" action="" method="post">
+        <div class="row">
+            <label for="nama">Berat Paket:</label>
+            <input type="number" id="inpBerat" required>
+        </div>
+        <div class="row">
+            <label for="tujuan">Tujuan:</label>
+            <input type="text" id="inpTujuan" required>
+        </div>
+        <div class="row">
+            <button type="submit" id="btnHitung">Hitung</button>
+        </div>
+    </form>
+
+    <!-- <section id="list"></section> -->
+
+    <script type="text/javascript">
+        const beratElem = document.getElementById('inpBerat')
+        const tujuanElem = document.getElementById('inpTujuan')
+        const btnSubmitElem = document.getElementById('btnHitung')
+
+        const formElem = document.getElementById('form')
+        let total = 0
+
+        formElem.addEventListener('submit', (event) => {
+            event.preventDefault()
+            event.stopPropagation()
+        })
+
+        const resetField = () => {
+            beratElem.value = ''
+            tujuanElem.value = ''
+            total = 0
+        }
+
+        btnSubmitElem.addEventListener('click', function() {
+            if (beratElem.value <= 1) {
+                total = 10
+            } else {
+                total = (beratElem.value - 1) * 2 + 10
+            }
+
+            if (tujuanElem.value === 'Jakarta') {
+                total += 5
+            } else if (tujuanElem.value === 'Surabaya') {
+                total += 10
+            } else if (tujuanElem.value === 'Bandung') {
+                total += 7
+            } else if (tujuanElem.value === 'Yogyakarta') {
+                total += 8
+            } else {
+                return alert('Tujuan pengiriman tidak valid')
+            }
+
+            alert(`Biaya pengiriman ke ${tujuanElem.value} seberat ${beratElem.value} adalah ${total}`)
+            resetField()
+        })
+
+    </script>
+</body>
+</html>

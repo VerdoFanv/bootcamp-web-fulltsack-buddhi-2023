@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            font-family: 'Calibri', sans-serif;
+        }
+
+        form {
+            border: 1px solid #000;
+            display: flex;
+            flex-direction: column;
+        }
+        .row {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .row input {
+            border: 1px solid #000;
+            border-radius: 2px;
+            padding: 5px;
+        }
+
+        .row label {
+            font-weight: 600;
+        }
+
+        .row button[type=submit] {
+            background-color: cadetblue;
+            padding: 10px;
+            color: #fff;
+            font-weight: 600;
+            outline: none;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+
+        section#list {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        article.card {
+            background-color: cornsilk;
+            padding: 10px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sistem Pendaftaran Event</h1>
+    <form id="form" action="" method="post">
+        <div class="row">
+            <label for="nama">Nama:</label>
+            <input type="text" id="inpName" required>
+        </div>
+        <div class="row">
+            <label for="usia">Usia:</label>
+            <input type="number" id="inpAge" required>
+        </div>
+        <div class="row">
+            <label for="email">Email:</label>
+            <input type="email" id="inpEmail" required>
+        </div>
+        <div class="row">
+            <button type="submit" id="btnSubmit">Daftar</button>
+        </div>
+    </form>
+
+    <section id="list"></section>
+
+    <script type="text/javascript">
+        const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+        const btnSubmitElem = document.getElementById('btnSubmit')
+        const nameElem = document.getElementById('inpName')
+        const ageElem = document.getElementById('inpAge')
+        const emailElem = document.getElementById('inpEmail')
+        const formElem = document.getElementById('form')
+        const listElem = document.getElementById('list')
+        const users = []
+
+        formElem.addEventListener('submit', (event) => {
+            event.preventDefault()
+            event.stopPropagation()
+        })
+
+        const resetField = () => {
+            nameElem.value = ''
+            ageElem.value = ''
+            emailElem.value = ''
+        }
+
+        btnSubmitElem.addEventListener('click', function() {
+            if (Number(ageElem.value) < 18) {
+                return alert('Maaf, usia Anda tidak memenuhi syarat untuk mendaftar event ini.')
+            } else if (!emailElem.value.match(emailElem)) {
+                return alert('Maaf, email yang Anda masukkan tidak valid.')
+            } else {
+                alert(`Pendaftaran Anda berhasil!`)
+                users.push({
+                    name: nameElem.value,
+                    age: ageElem.value,
+                    email: emailElem.value
+                })
+                resetField()
+            }
+
+            let templateList = ''
+            for (const list of users) {
+                templateList += `
+                    <article class="card">
+                        <p>Nama: ${list.name}</p>
+                        <p>Umur: ${list.age}</p>
+                        <p>Email: ${list.email}</p>
+                    </article>
+                `
+            }
+
+            listElem.innerHTML = templateList
+        })
+
+    </script>
+</body>
+</html>
